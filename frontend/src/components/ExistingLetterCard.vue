@@ -14,30 +14,44 @@
       q-field(outlined stack-label label="Дата")
         template(v-slot:control) {{ date }}
     q-card-actions(align="center")
-      q-btn(icon="delete" color="primary" rounded push) Удалить письмо
+      q-btn(@click="deleteLetter" icon="delete" color="primary" rounded push) Удалить письмо
 </template>
 
 <script setup>
-  import { ref,watch } from 'vue';
-  const props = defineProps({
-    sender: String,
-    topic: String,
-    body: String,
-    date: String,
-  })
+import { ref, watch } from 'vue';
+import { useLetterStore } from 'src/stores/letterStore';
+const letterStore = useLetterStore()
+const props = defineProps({
+  id: Number,
+  sender: String,
+  topic: String,
+  body: String,
+  date: String,
+})
 
-  const sender = ref(props.sender)
-  const topic = ref(props.topic)
-  const body = ref(props.body)
-  const date = ref(props.date)
-  watch(()=>props,()=>{
-    sender.value = props.sender
-    topic.value = props.topic
-    body.value = props.body
-    date.value = props.date
-  },{ deep: true })
+const sender = ref(props.sender)
+const topic = ref(props.topic)
+const body = ref(props.body)
+const date = ref(props.date)
+watch(() => props, () => {
+  sender.value = props.sender
+  topic.value = props.topic
+  body.value = props.body
+  date.value = props.date
+}, { deep: true })
+
+const emits = defineEmits('deleteClicked')
+
+async function deleteLetter() {
+  try {
+    await letterStore.deleteLetter(props.id)
+  } catch (error) {
+    console.log(error)
+    return
+  }
+  emits('deleteClicked')
+}
+
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

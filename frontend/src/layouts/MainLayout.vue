@@ -16,8 +16,12 @@
             q-icon(:name="option.iconName")
           q-item-section {{ option.title }}
           q-item-section(side)
-            div.mail-counter 999+
+            div.mail-counter(v-if="option.id === 'inbox'") {{letterStore.inboxLetters.length || 0}}
               q-tooltip Количество писем
+            div.mail-counter(v-if="option.id === 'draft'") {{letterStore.draftLetters.length || 0}}
+              q-tooltip Количество писем
+            div.mail-counter(v-if="option.id === 'send'") {{letterStore.sendedLetters.length || 0}}
+              q-tooltip Количество писем  
     q-page-container
       router-view
 </template>
@@ -25,6 +29,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { useLetterStore } from 'src/stores/letterStore';
+
+const letterStore = useLetterStore()
 
 const currentScreen = ref('inbox')
 
@@ -50,28 +57,28 @@ const optionsList = ref([
   },
 ])
 
-function changeScreen(optionId){
+function changeScreen(optionId) {
   router.push(optionId)
   currentScreen.value = optionId
 }
 
 const leftDrawerOpen = ref(false)
 
-function toggleLeftDrawer () {
+function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
 
 <style lang="scss" scoped>
-  .mail-counter{
-    border: solid 1px black;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    border-radius: 100%;
-    font-size: 12px;
-    color: black;
-  }
+.mail-counter {
+  border: solid 1px black;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  font-size: 12px;
+  color: black;
+}
 </style>
