@@ -4,7 +4,7 @@
       q-toolbar
         q-btn(dense='' flat='' round='' icon='menu' @click='toggleLeftDrawer')
         q-toolbar-title Почта
-        q-input(rounded bg-color="white" outlined v-model="searchText" @change="console.log(searchText)" label="Поиск письма" clearable dense)
+        q-input(rounded bg-color="white" outlined v-model="letterStore.searchText" @update:model-value="searchChanged" label="Поиск письма" dense)
           template(v-slot:prepend)
             q-icon(name="search")
     q-drawer(show-if-above='' v-model='leftDrawerOpen' side='left' bordered='') 
@@ -34,8 +34,6 @@ import { useLetterStore } from 'src/stores/letterStore';
 const letterStore = useLetterStore()
 
 const currentScreen = ref('inbox')
-
-const searchText = ref('')
 
 const router = useRouter()
 
@@ -67,6 +65,7 @@ const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
 </script>
 
 <style lang="scss" scoped>

@@ -7,7 +7,7 @@
         q-tooltip Получить входящие письма
     q-table(title="Входящие",
       :columns="columns" 
-      :rows="letterStore.inboxLetters || []"
+      :rows="letterStore.inboxLetters.filter((letter) => letter.body.includes(letterStore.searchText))"
       row-key="name"
       @row-click="onRowClick")
     q-dialog(v-model="newLetterDialogOpened")

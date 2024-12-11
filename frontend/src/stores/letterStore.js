@@ -10,7 +10,9 @@ export const useLetterStore = defineStore('letters', () => {
 
     const sendedLetters = ref([])
     
-    const sortedLetters = ref([])
+    const filteredLetters = ref([])
+
+    const searchText = ref('')
 
     async function getLettersInbox() {
         return axios
@@ -120,5 +122,7 @@ export const useLetterStore = defineStore('letters', () => {
         updateLetter,
         deleteLetter,
         addRandomInboxLetters,
+        filteredLetters,
+        searchText,
     }
 })

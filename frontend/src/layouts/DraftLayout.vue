@@ -7,7 +7,7 @@
           q-tooltip Получить входящие письма
       q-table(title="Черновики",
         :columns="columns" 
-        :rows="letterStore.draftLetters || []"
+        :rows="letterStore.draftLetters.filter((letter) => letter.body.includes(letterStore.searchText))"
         row-key="name"
         @row-click="onRowClick")
       q-dialog(v-model="newLetterDialogOpened")

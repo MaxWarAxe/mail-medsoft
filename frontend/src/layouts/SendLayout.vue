@@ -7,7 +7,7 @@
         q-tooltip Получить входящие письма
     q-table(title="Отправленные",
       :columns="columns" 
-      :rows="letterStore.sendedLetters || []"
+      :rows="letterStore.sendedLetters.filter((letter) => letter.body.includes(letterStore.searchText))"
       row-key="name"
       @row-click="onRowClick")
     q-dialog(v-model="newLetterDialogOpened")
@@ -28,10 +28,6 @@ import ExistingLetterCard from 'src/components/ExistingLetterCard.vue';
 import { useLetterStore } from 'src/stores/letterStore';
 
 const letterStore = useLetterStore()
-
-const rows = ref([
-  { sender: 'd', topic: 'a', body: 'qweweqweqwewqeqw', date: '02.03.2024' }
-])
 
 const columns = [
   { name: "reciever", field: "reciever", label: "Получатель", align: "left", sortable: true },
