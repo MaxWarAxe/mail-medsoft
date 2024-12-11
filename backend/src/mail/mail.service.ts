@@ -10,15 +10,15 @@ export class MailService {
     constructor(@InjectDataSource() private dataSource: DataSource){}
 
     async getInboxLetters(): Promise<string>{
-        return await this.dataSource.query("select * from letters where place='inbox'")
+        return await this.dataSource.query("select * from letters where place='inbox' order by date desc")
     }
 
     async getDraftLetters(): Promise<string>{
-        return await this.dataSource.query("select * from letters where place='draft'")
+        return await this.dataSource.query("select * from letters where place='draft' order by date desc")
     }
 
     async getSendedLetters(): Promise<string>{
-        return await this.dataSource.query("select * from letters where place='sended'")
+        return await this.dataSource.query("select * from letters where place='sended' order by date desc")
     }   
 
     async createLetter(createLetterDTO: CreateLetterDto): Promise<string>{

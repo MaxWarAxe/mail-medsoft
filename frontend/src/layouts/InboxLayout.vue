@@ -27,7 +27,7 @@ let columns = [
   { name: "sender", field: "sender", label: "Отправитель", align: "left", sortable: true },
   { name: "topic", field: "topic", label: "Тема письма", sortable: true },
   { name: "body", field: "body", label: "Содержимое письма", sortable: true },
-  { name: "date", field: "date", label: "Дата отправления", sortable: true }
+  { name: "date", field: "date", label: "Дата отправления", sortable: true, sorted: 'desc' }
 ]
 
 let newLetterDialogOpened = ref(false)
