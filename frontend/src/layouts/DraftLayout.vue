@@ -28,17 +28,14 @@ import ExistingLetterCard from 'src/components/ExistingLetterCard.vue';
 import { useLetterStore } from 'src/stores/letterStore';
 
 const letterStore = useLetterStore()
-let rows = ref([
-  { sender: 'd', topic: 'a', body: 'qweweqweqwewqeqw', date: '02.03.2024' }
-])
 
-let columns = [
+const columns = [
   { name: "reciever", field: "reciever", label: "Получатель", align: "left", sortable: true },
   { name: "topic", field: "topic", label: "Тема письма", sortable: true },
   { name: "body", field: "body", label: "Содержимое письма", sortable: true },
 ]
 
-let newLetterDialogOpened = ref(false)
+const newLetterDialogOpened = ref(false)
 
 const editingLetter = ref({
   id: -1,
@@ -53,7 +50,7 @@ function newLetter() {
   newLetterDialogOpened.value = true
 }
 
-let existingLetterDialogOpened = ref(false)
+const existingLetterDialogOpened = ref(false)
 function onRowClick(event, row, index) {
   existingLetterDialogOpened.value = true
   console.log(row, index)
