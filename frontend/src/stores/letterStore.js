@@ -9,10 +9,21 @@ export const useLetterStore = defineStore('letters', () => {
     const draftLetters = ref([])
 
     const sendedLetters = ref([])
-    
-    const filteredLetters = ref([])
 
     const searchText = ref('')
+
+    function filterFunc(letter){
+        let search = searchText.value.toLowerCase();
+        var values = Object.values(letter);
+        var flag = false
+        values.forEach((val) => {
+          if(val.toString().toLowerCase().includes(search)) {
+               flag = true;
+               return;
+           }
+         })
+         if(flag) return letter
+    }
 
     async function getLettersInbox() {
         return axios
@@ -122,7 +133,7 @@ export const useLetterStore = defineStore('letters', () => {
         updateLetter,
         deleteLetter,
         addRandomInboxLetters,
-        filteredLetters,
+        filterFunc,
         searchText,
     }
 })

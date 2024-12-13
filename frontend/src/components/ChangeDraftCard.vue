@@ -15,6 +15,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { useLetterStore } from 'src/stores/letterStore';
 
 const props = defineProps({
@@ -29,35 +30,42 @@ const reciever = ref(props.reciever)
 const topic = ref(props.topic)
 const body = ref(props.body)
 const emits = defineEmits('deleteCicked')
+const quasar = useQuasar()
 
 async function updateLetterDraft() {
     try {
         await letterStore.updateLetter(props.id, "me@mail.ru", reciever.value, topic.value, body.value)
     } catch (error) {
+        quasar.notify({ type: 'negative', message: 'Произошла ошибка' })
         console.log(error)
         return
     }
     letterStore.draftLetters = await letterStore.getLettersDraft()
+    quasar.notify({ type: 'positive', message: 'Обновлено успешно' })
 }
 
 async function sendLetter() {
     try {
         await letterStore.sendLetter("me@mail.ru", reciever.value, topic.value, body.value)
     } catch (error) {
+        quasar.notify({ type: 'negative', message: 'Произошла ошибка' })
         console.log(error)
         return
     }
     letterStore.sendedLetters = await letterStore.getLettersSended()
+    quasar.notify({ type: 'positive', message: 'Отправка письма успешна' })
 }
 
 async function deleteLetter() {
     try {
         await letterStore.deleteLetter(props.id)
     } catch (error) {
+        quasar.notify({ type: 'negative', message: 'Произошла ошибка' })
         console.log(error)
         return
     }
     letterStore.draftLetters = await letterStore.getLettersDraft()
+    quasar.notify({ type: 'positive', message: 'Удаление письма успешно' })
     emits('deleteClicked')
 }
 

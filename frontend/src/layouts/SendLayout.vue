@@ -7,9 +7,10 @@
         q-tooltip Получить входящие письма
     q-table(title="Отправленные",
       :columns="columns" 
-      :rows="letterStore.sendedLetters.filter((letter) => letter.body.includes(letterStore.searchText))"
+      :rows="letterStore.sendedLetters.filter((letter) => letterStore.filterFunc(letter))"
       row-key="name"
-      @row-click="onRowClick")
+      @row-click="onRowClick"
+      :pagination="initialPagination")
     q-dialog(v-model="newLetterDialogOpened")
       NewLetterCard
     q-dialog(v-model="existingLetterDialogOpened")
@@ -36,7 +37,10 @@ const columns = [
   { name: "date", field: "date", label: "Дата отправления", sortable: true }
 ]
 const newLetterDialogOpened = ref(false)
-
+const initialPagination = {
+  page: 1,
+  rowsPerPage: 50
+}
 const editingLetter = ref({
   id: -1,
   sender: '',

@@ -7,9 +7,10 @@
           q-tooltip Получить входящие письма
       q-table(title="Черновики",
         :columns="columns" 
-        :rows="letterStore.draftLetters.filter((letter) => letter.body.includes(letterStore.searchText))"
+        :rows="letterStore.draftLetters.filter((letter) => letterStore.filterFunc(letter))"
         row-key="name"
-        @row-click="onRowClick")
+        @row-click="onRowClick"
+        :pagination="initialPagination")
       q-dialog(v-model="newLetterDialogOpened")
         NewLetterCard
       q-dialog(v-model="existingLetterDialogOpened")
@@ -33,8 +34,12 @@ const columns = [
   { name: "reciever", field: "reciever", label: "Получатель", align: "left", sortable: true },
   { name: "topic", field: "topic", label: "Тема письма", sortable: true },
   { name: "body", field: "body", label: "Содержимое письма", sortable: true },
+  { name: "date", field: "date", label: "Дата создания черновика", sortable: true }
 ]
-
+const initialPagination = {
+  page: 1,
+  rowsPerPage: 50
+}
 const newLetterDialogOpened = ref(false)
 
 const editingLetter = ref({

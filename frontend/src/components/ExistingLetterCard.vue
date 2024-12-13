@@ -20,6 +20,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useLetterStore } from 'src/stores/letterStore';
+import { useQuasar } from 'quasar';
 const letterStore = useLetterStore()
 const props = defineProps({
   id: Number,
@@ -28,7 +29,7 @@ const props = defineProps({
   body: String,
   date: String,
 })
-
+const quasar = useQuasar()
 const sender = ref(props.sender)
 const topic = ref(props.topic)
 const body = ref(props.body)
@@ -46,9 +47,11 @@ async function deleteLetter() {
   try {
     await letterStore.deleteLetter(props.id)
   } catch (error) {
+    quasar.notify({ type: 'negative', message: 'Произошла ошибка' })
     console.log(error)
     return
   }
+  quasar.notify({ type: 'positive', message: 'Удаление письма успешно' })
   emits('deleteClicked')
 }
 

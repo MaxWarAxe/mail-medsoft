@@ -7,9 +7,10 @@
         q-tooltip Получить входящие письма
     q-table(title="Входящие",
       :columns="columns" 
-      :rows="letterStore.inboxLetters.filter((letter) => letter.body.includes(letterStore.searchText))"
+      :rows="letterStore.inboxLetters.filter((letter) => letterStore.filterFunc(letter))"
       row-key="name"
-      @row-click="onRowClick")
+      @row-click="onRowClick"
+      :pagination="initialPagination")
     q-dialog(v-model="newLetterDialogOpened")
       NewLetterCard
     q-dialog(v-model="existingLetterDialogOpened")
@@ -39,7 +40,10 @@ const editingLetter = ref({
   body: '',
   date: '',
 })
-
+const initialPagination = {
+  page: 1,
+  rowsPerPage: 50
+}
 async function deleteClicked() {
   letterStore.inboxLetters = await letterStore.getLettersInbox()
   existingLetterDialogOpened.value = false
